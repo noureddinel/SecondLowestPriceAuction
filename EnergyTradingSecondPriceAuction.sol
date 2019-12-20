@@ -116,14 +116,12 @@ contract EvChargingMarket {
     event BidNotCorrectelyRevealed(address bidder, uint _price, bytes32 _sealedBid);
 
     function createReq(uint _amount, uint _price, uint256 _time, uint256 _auctionTime, uint _location) public 
-        
     {
         uint aucId = totalAuction++;
         storeAndLogNewReq(msg.sender, aucId, _amount, _price, _time, _auctionTime, _location);
     } 
 
-    function makeSealedOffer(uint _aucId, bytes32 _sealedBid) public 
-        
+    function makeSealedOffer(uint _aucId, bytes32 _sealedBid) public    
         auctionExisit(_aucId)
         auctionNotClosed(_aucId) 
         revealNotEnded(_aucId) 
@@ -206,8 +204,7 @@ contract EvChargingMarket {
     }
 
     function updateBalance(uint _aucId, address _buyer, address _seller) public 
-        reportsOk(_aucId)
-        
+        reportsOk(_aucId)   
     {
         uint256 date = contracts[_aucId].deliveryTime;
         uint amount = contracts[_aucId].amount;
