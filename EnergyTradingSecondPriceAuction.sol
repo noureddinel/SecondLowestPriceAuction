@@ -149,6 +149,7 @@ contract EvChargingMarket {
         //auctionTimeOut(_aucId)
     {
         auctions[_aucId].state = AuctionState.RevealEnd;
+        contracts[_aucId].state= ContractState.Established;
     }
     
     function revealOffer (uint _aucId, uint _price, uint _bidId) public 
