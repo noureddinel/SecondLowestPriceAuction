@@ -41,6 +41,7 @@ contract EvChargingMarket {
         uint  amount;
         uint  buyerMaxPrice;
         uint  currentPrice;
+        uint secondLowestPrice;
         bool  buyerMeterReport;
         bool  sellerMeterReport; 
         uint256  deliveryTime;
@@ -163,13 +164,20 @@ contract EvChargingMarket {
         return;
         }
         if (contracts[_aucId].state == ContractState.HasOffer) {
-            require(_price < contracts[_aucId].currentPrice);         
-            contracts[_aucId].currentPrice = _price;
-            contracts[_aucId].seller = msg.sender;
-            emit LowestBidDecreased(msg.sender, _aucId, _price, 0);
+            if(_price < contracts[_aucId].currentPrice) {        
+                contracts[_aucId].secondLowestPrice = contracts[_aucId].currentPrice;
+                contracts[_aucId].currentPrice = _price;
+                contracts[_aucId].seller = msg.sender;
+                emit LowestBidDecreased(msg.sender, _aucId, _price, 0);
+            } else {
+                if (_price < contracts[_aucId].seconLowestPrice) {
+                    contracts[_aucId].secondLowestPrice = _price;
+                }
+            }
         } else { // first offer
             require(_price <= contracts[_aucId].buyerMaxPrice);         
             contracts[_aucId].currentPrice = _price; 
+            contracts[_aucId].secondLowestPrice = _price;
             contracts[_aucId].seller = msg.sender;
             contracts[_aucId].state = ContractState.HasOffer;  
             emit FirstOfferAccepted(msg.sender, _aucId, _price, 0); 
