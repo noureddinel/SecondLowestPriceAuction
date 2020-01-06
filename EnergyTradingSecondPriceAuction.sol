@@ -217,7 +217,7 @@ contract EvChargingMarket {
     {
         uint256 date = contracts[_aucId].deliveryTime;
         uint amount = contracts[_aucId].amount;
-        uint amounToPay = amount * contracts[_aucId].currentPrice;
+        uint amounToPay = amount * contracts[_aucId].secondLowestPrice;
         accounts[_buyer].payments.push(Payment(_aucId, date, amount, true, amounToPay));
         accounts[_buyer].balance -= int256(amounToPay);
         accounts[_seller].payments.push(Payment(_aucId, date, amount, false, amounToPay));
